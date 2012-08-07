@@ -6,6 +6,15 @@ Encoding.default_internal = Encoding::UTF_8
 
 require 'flog'
 
+module Kernel
+  def silence_warnings
+    old_verbose, $VERBOSE = $VERBOSE, nil
+    yield
+  ensure
+    $VERBOSE = old_verbose
+  end
+end
+
 class RubyFile
   attr_reader :path, :lines, :lines_of_code, :methods
 
@@ -23,14 +32,11 @@ class RubyFile
   private
 
   def flog_total
-    old_verbose, $VERBOSE = $VERBOSE, nil
-
-    flog = Flog.new continue: true
-    flog.flog @path
-
-    $VERBOSE = old_verbose
-
-    flog.total.to_f.round(1)
+    silence_warnings do
+      flog = Flog.new continue: true
+      flog.flog @path
+      flog.total.to_f.round(1)
+    end
   end
 
   def gather_statistics
