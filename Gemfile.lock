@@ -1,0 +1,15 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    flog (3.0.0.b1)
+      ruby_parser (~> 3.0.0.a4)
+      sexp_processor (~> 4.0)
+    ruby_parser (3.0.0.a5)
+      sexp_processor (~> 4.0)
+    sexp_processor (4.0.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  flog (~> 3.0.0.b1)
