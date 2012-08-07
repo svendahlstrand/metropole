@@ -1,0 +1,45 @@
+#!/usr/bin/env ruby -U
+# encoding: utf-8
+
+Encoding.default_external = Encoding::UTF_8
+Encoding.default_internal = Encoding::UTF_8
+
+class RubyFile
+  attr_reader :path, :lines, :lines_of_code, :methods
+
+  def initialize(path)
+    @path = path
+    @lines = @lines_of_code = @methods = 0
+
+    gather_statistics
+  end
+
+  def complexity
+    @complexity ||= flog_total
+  end
+
+  private
+
+  def flog_total
+    score = `flog -sam #{@path} 2>/dev/null`.split(/\n/).first.to_f
+    $?.success? ? score : nil
+  end
+
+  def gather_statistics
+    File.open(@path).each_line do |line|
+      @lines += 1
+      @lines_of_code += 1 unless line =~ /^\s*#/ || line =~ /^\s*$/
+      @methods += 1 if line =~ /^\s*def\s+[_a-z]/
+    end
+  end
+end
+
+puts "LINES\tLOC\tMETHODS\tCOMPLEXITY\tPATH"
+puts
+
+Dir.glob('**/*.rb').each do |path|
+  file = RubyFile.new(path)
+
+  puts "#{file.lines}\t#{file.lines_of_code}\t#{file.methods}\t#{file.complexity}\t\t#{file.path}"
+  puts
+end
