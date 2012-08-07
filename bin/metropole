@@ -33,7 +33,7 @@ class RubyFile
 
   def flog_total
     silence_warnings do
-      flog = Flog.new continue: true
+      flog = Flog.new continue: true, parser: RubyParser
       flog.flog @path
       flog.total.to_f.round(1)
     end
