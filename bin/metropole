@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby -w
 # encoding: utf-8
 
+require 'erb'
 require 'metropole'
 
 Dir.glob('**/*.rb').each do |path|
@@ -8,7 +9,7 @@ Dir.glob('**/*.rb').each do |path|
 
   FileUtils.mkdir_p File.dirname(file.html_path)
   File.open(file.html_path, 'w:utf-8') do |f|
-    f.puts file.path
-    f.puts "#{file.lines}\t#{file.lines_of_code}\t#{file.methods}\t#{file.complexity}\t\t#{file.duplication}"
+    erb = ERB.new File.read(File.expand_path('../../lib/metropole/templates/ruby_file.html.erb', __FILE__))
+    f.write erb.result(binding)
   end
 end
