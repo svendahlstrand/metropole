@@ -27,6 +27,10 @@ module Metropole
       "metropole/#{File.dirname(@path)}/#{File.basename(@path, '.rb')}.html"
     end
 
+    def content
+      File.read @path
+    end
+
     private
 
     def flay_total

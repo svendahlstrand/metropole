@@ -1,3 +1,5 @@
+require 'coderay'
+
 module Metropole
   module Reporter
     def self.run
@@ -8,7 +10,7 @@ module Metropole
 
         FileUtils.mkdir_p File.dirname(file.html_path)
         File.open(file.html_path, 'w:utf-8') do |f|
-          f.write View.new('ruby_file').render(file: file)
+          f.write View.new('ruby_file').render(file: file, code: CodeRay.scan(file.content, :ruby).div(line_numbers: :table))
         end
 
         all_files << file
