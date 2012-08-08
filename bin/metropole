@@ -1,9 +1,6 @@
 #!/usr/bin/env ruby -U
 # encoding: utf-8
 
-Encoding.default_external = Encoding::UTF_8
-Encoding.default_internal = Encoding::UTF_8
-
 require 'flog'
 
 module Kernel
@@ -40,7 +37,7 @@ class RubyFile
   end
 
   def gather_statistics
-    File.open(@path).each_line do |line|
+    File.open(@path, 'r:utf-8').each_line do |line|
       @lines += 1
       @lines_of_code += 1 unless line =~ /^\s*#/ || line =~ /^\s*$/
       @methods += 1 if line =~ /^\s*def\s+[_a-z]/
