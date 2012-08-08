@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby -w
 # encoding: utf-8
 
+require 'flay'
 require 'flog'
 
 module Kernel
@@ -26,7 +27,19 @@ class RubyFile
     @complexity ||= flog_total
   end
 
+  def duplication
+    @duplication ||= flay_total
+  end
+
   private
+
+  def flay_total
+    silence_warnings do
+      flay = Flay.new mass: 16, summary: true
+      flay.process @path
+      flay.total
+    end
+  end
 
   def flog_total
     silence_warnings do
@@ -45,12 +58,12 @@ class RubyFile
   end
 end
 
-puts "LINES\tLOC\tMETHODS\tCOMPLEXITY\tPATH"
+puts "LINES\tLOC\tMETHODS\tCOMPLEXITY\tDUPLICATION\tPATH"
 puts
 
 Dir.glob('**/*.rb').each do |path|
   file = RubyFile.new(path)
 
-  puts "#{file.lines}\t#{file.lines_of_code}\t#{file.methods}\t#{file.complexity}\t\t#{file.path}"
+  puts "#{file.lines}\t#{file.lines_of_code}\t#{file.methods}\t#{file.complexity}\t\t#{file.duplication}\t\t#{file.path}"
   puts
 end
