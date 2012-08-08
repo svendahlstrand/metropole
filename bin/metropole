@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby -w
 # encoding: utf-8
 
+require 'fileutils'
 require 'flay'
 require 'flog'
 
@@ -31,6 +32,10 @@ class RubyFile
     @duplication ||= flay_total
   end
 
+  def html_path
+    "metropole/#{File.dirname(@path)}/#{File.basename(@path, '.rb')}.html"
+  end
+
   private
 
   def flay_total
@@ -58,12 +63,12 @@ class RubyFile
   end
 end
 
-puts "LINES\tLOC\tMETHODS\tCOMPLEXITY\tDUPLICATION\tPATH"
-puts
-
 Dir.glob('**/*.rb').each do |path|
   file = RubyFile.new(path)
 
-  puts "#{file.lines}\t#{file.lines_of_code}\t#{file.methods}\t#{file.complexity}\t\t#{file.duplication}\t\t#{file.path}"
-  puts
+  FileUtils.mkdir_p File.dirname(file.html_path)
+  File.open(file.html_path, 'w:utf-8') do |f|
+    f.puts file.path
+    f.puts "#{file.lines}\t#{file.lines_of_code}\t#{file.methods}\t#{file.complexity}\t\t#{file.duplication}"
+  end
 end
