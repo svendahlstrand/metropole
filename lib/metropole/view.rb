@@ -13,7 +13,7 @@ module Metropole
 
     def render(options)
       layout do
-        template = ERB.new File.read(template_path(@name))
+        template = ERB.new File.open(template_path(@name), 'r:utf-8') { |file| file.read }
         template.result(OpenStruct.new(options).instance_eval { binding })
       end
     end
@@ -21,7 +21,7 @@ module Metropole
     private
 
     def layout
-      layout = ERB.new File.read(template_path('layout'))
+      layout = ERB.new File.open(template_path('layout'), 'r:utf-8') { |file| file.read }
       layout.result(binding)
     end
 

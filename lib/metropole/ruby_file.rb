@@ -28,7 +28,7 @@ module Metropole
     end
 
     def content
-      File.read @path
+      File.open(@path, 'r:utf-8') { |file| file.read }
     end
 
     private
