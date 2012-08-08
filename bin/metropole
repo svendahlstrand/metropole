@@ -1,15 +1,6 @@
 #!/usr/bin/env ruby -w
 # encoding: utf-8
 
-require 'erb'
 require 'metropole'
 
-Dir.glob('**/*.rb').each do |path|
-  file = Metropole::RubyFile.new(path)
-
-  FileUtils.mkdir_p File.dirname(file.html_path)
-  File.open(file.html_path, 'w:utf-8') do |f|
-    erb = ERB.new File.read(File.expand_path('../../lib/metropole/templates/ruby_file.html.erb', __FILE__))
-    f.write erb.result(binding)
-  end
-end
+Metropole::Reporter.run

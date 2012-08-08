@@ -2,3 +2,4 @@
 
 require 'metropole/core_ext/kernel'
 require 'metropole/ruby_file'
+require 'metropole/reporter'
