@@ -1,23 +1,27 @@
 <h1>Overview</h1>
 
-<table>
-  <tr>
-    <th>File</th>
-    <th>Lines</th>
-    <th>Lines of code</th>
-    <th>Methods</th>
-    <th>Complexity</th>
-    <th>Duplication</th>
-  </tr>
-
-  <% all_files.each do |file| %>
+<% if all_files.any? %>
+  <table>
     <tr>
-      <td><a href="../<%= file.html_path %>"><%= file.path %></a></td>
-      <td><%= file.lines %></td>
-      <td><%= file.lines_of_code %></td>
-      <td><%= file.methods %></td>
-      <td><%= file.complexity %></td>
-      <td><%= file.duplication %></td>
+      <th>File</th>
+      <th>Lines</th>
+      <th>Lines of code</th>
+      <th>Methods</th>
+      <th>Complexity</th>
+      <th>Duplication</th>
     </tr>
-  <% end %>
-</table>
+
+    <% all_files.each do |file| %>
+      <tr>
+        <td><a href="../<%= file.html_path %>"><%= file.path %></a></td>
+        <td><%= file.lines %></td>
+        <td><%= file.lines_of_code %></td>
+        <td><%= file.methods %></td>
+        <td><%= file.complexity %></td>
+        <td><%= file.duplication %></td>
+      </tr>
+    <% end %>
+  </table>
+<% else %>
+  <p>Sorry, no Ruby files. :(</p>
+<% end %>

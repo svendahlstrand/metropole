@@ -7,6 +7,8 @@ module Metropole
     def self.run
       all_files = []
 
+      FileUtils.mkdir_p 'metropole'
+
       Dir.glob('**/*.rb').each do |path|
         file = Metropole::RubyFile.new(path)
 
