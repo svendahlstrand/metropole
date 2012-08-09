@@ -3,4 +3,4 @@
 
 require 'metropole'
 
-Metropole::Reporter.run
+Metropole::Reporter.new.run
