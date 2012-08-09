@@ -1,25 +1,22 @@
 # encoding: utf-8
 
 require 'fileutils'
-require 'flay'
-require 'flog'
-require 'metropole/metrics/code'
 require 'forwardable'
+require 'flay'
+require 'metropole/metrics/code'
+require 'metropole/metrics/complexity'
 
 module Metropole
   class RubyFile
     extend Forwardable
 
-    attr_reader :path
+    attr_reader :path, :complexity
     def_delegators :@code_metrics, :lines, :lines_of_code, :methods
 
     def initialize(path)
       @path = path
       @code_metrics = Metropole::Metrics::Code.new(File.new(@path))
-    end
-
-    def complexity
-      @complexity ||= flog_total
+      @complexity = Metropole::Metrics::Complexity.new(@path)
     end
 
     def duplication
@@ -41,14 +38,6 @@ module Metropole
         flay = Flay.new mass: 16, summary: true
         flay.process @path
         flay.total
-      end
-    end
-
-    def flog_total
-      silence_warnings do
-        flog = Flog.new continue: true, parser: RubyParser
-        flog.flog @path
-        flog.total.to_f.round(1)
       end
     end
   end

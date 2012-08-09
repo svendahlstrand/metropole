@@ -20,7 +20,7 @@ module Metropole
         all_files << file
       end
 
-      all_files.sort! { |x, y| x.complexity <=> y.complexity }.reverse!
+      all_files.sort! { |x, y| x.complexity.total <=> y.complexity.total}.reverse!
 
       File.open('metropole/index.html', 'w:utf-8') do |f|
         f.write View.new('index').render(all_files: all_files)
