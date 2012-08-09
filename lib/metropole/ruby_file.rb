@@ -14,9 +14,9 @@ module Metropole
 
     def initialize(path)
       @path = path
-      @source_metrics = Metropole::Metrics::Source.new(File.new(@path))
-      @complexity = Metropole::Metrics::Complexity.new(@path)
-      @duplication = Metropole::Metrics::Duplication.new(@path)
+      @source_metrics = Metropole::Metrics::Source.new(self)
+      @complexity = Metropole::Metrics::Complexity.new(self)
+      @duplication = Metropole::Metrics::Duplication.new(self)
     end
 
     def html_path
@@ -24,7 +24,7 @@ module Metropole
     end
 
     def content
-      File.open(@path, 'r:utf-8') { |file| file.read }
+      @content ||= File.open(@path, 'r:utf-8') { |file| file.read }
     end
   end
 end
