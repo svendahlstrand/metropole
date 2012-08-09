@@ -1,6 +1,5 @@
 # encoding: utf-8
 
-require 'fileutils'
 require 'forwardable'
 require 'metropole/metrics/source'
 require 'metropole/metrics/complexity'
