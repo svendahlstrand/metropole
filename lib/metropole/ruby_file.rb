@@ -3,16 +3,19 @@
 require 'fileutils'
 require 'flay'
 require 'flog'
+require 'metropole/metrics/code'
+require 'forwardable'
 
 module Metropole
   class RubyFile
-    attr_reader :path, :lines, :lines_of_code, :methods
+    extend Forwardable
+
+    attr_reader :path
+    def_delegators :@code_metrics, :lines, :lines_of_code, :methods
 
     def initialize(path)
       @path = path
-      @lines = @lines_of_code = @methods = 0
-
-      gather_statistics
+      @code_metrics = Metropole::Metrics::Code.new(File.new(@path))
     end
 
     def complexity
@@ -46,14 +49,6 @@ module Metropole
         flog = Flog.new continue: true, parser: RubyParser
         flog.flog @path
         flog.total.to_f.round(1)
-      end
-    end
-
-    def gather_statistics
-      File.open(@path, 'r:utf-8').each_line do |line|
-        @lines += 1
-        @lines_of_code += 1 unless line =~ /^\s*#/ || line =~ /^\s*$/
-        @methods += 1 if line =~ /^\s*def\s+[_a-z]/
       end
     end
   end
