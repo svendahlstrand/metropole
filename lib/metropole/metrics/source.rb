@@ -2,7 +2,7 @@
 
 module Metropole
   module Metrics
-    class Code
+    class Source
       attr_reader :lines, :lines_of_code, :methods
 
       def initialize(file)

@@ -2,7 +2,7 @@
 
 require 'fileutils'
 require 'forwardable'
-require 'metropole/metrics/code'
+require 'metropole/metrics/source'
 require 'metropole/metrics/complexity'
 require 'metropole/metrics/duplication'
 
@@ -11,11 +11,11 @@ module Metropole
     extend Forwardable
 
     attr_reader :path, :complexity, :duplication
-    def_delegators :@code_metrics, :lines, :lines_of_code, :methods
+    def_delegators :@source_metrics, :lines, :lines_of_code, :methods
 
     def initialize(path)
       @path = path
-      @code_metrics = Metropole::Metrics::Code.new(File.new(@path))
+      @source_metrics = Metropole::Metrics::Source.new(File.new(@path))
       @complexity = Metropole::Metrics::Complexity.new(@path)
       @duplication = Metropole::Metrics::Duplication.new(@path)
     end
