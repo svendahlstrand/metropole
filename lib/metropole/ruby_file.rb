@@ -23,8 +23,18 @@ module Metropole
       "metropole/#{File.dirname(@path)}/#{File.basename(@path, '.rb')}.html"
     end
 
+    def html_dirname
+      File.dirname(html_path)
+    end
+
     def content
       @content ||= File.open(@path, 'r:utf-8') { |file| file.read }
+    end
+
+    def self.all_in_current_dir
+      Dir.glob('**/*.rb').map do |path|
+        self.new(path)
+      end
     end
   end
 end
