@@ -5,16 +5,22 @@ require 'flay'
 module Metropole
   module Metrics
     class Duplication
-      def initialize(ruby_file)
-        @ruby_file = ruby_file
-      end
+      attr_reader :total, :report
 
-      def total
+      def initialize(ruby_file)
+        report = StringIO.new '', 'r+:utf-8'
+        old_stdout, $stdout = $stdout, report
+
         silence_warnings do
-          flay = Flay.new mass: 16, summary: true
-          flay.process @ruby_file.path
-          flay.total
+          flay = Flay.new mass: 4, summary: true
+          flay.process ruby_file.path
+          @total = flay.total
+
+          flay.report(report)
+          @report = report.string
         end
+      ensure
+        $stdout = old_stdout
       end
     end
   end
