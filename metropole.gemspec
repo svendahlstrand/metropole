@@ -18,4 +18,6 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'flay', '~> 2.0.0.b1'
   gem.add_runtime_dependency 'flog', '~> 3.0.0.b2'
   gem.add_runtime_dependency 'coderay'
+
+  gem.add_development_dependency 'rake'
 end
