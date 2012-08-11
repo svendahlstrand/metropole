@@ -6,7 +6,7 @@ require 'flay'
 module Metropole
   module Metrics
     class Duplication
-      attr_reader :total, :hotspots
+      attr_reader :total_score, :hotspots
 
       def initialize(ruby_file)
         report = StringIO.new '', 'r+:utf-8'
@@ -14,7 +14,7 @@ module Metropole
 
         flay = Flay.new mass: 15
         flay.process ruby_file.path
-        @total = flay.total
+        @total_score = flay.total
 
         flay.report
 
