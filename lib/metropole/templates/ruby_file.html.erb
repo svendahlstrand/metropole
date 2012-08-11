@@ -12,14 +12,14 @@
     <td><%= file.lines %></td>
     <td><%= file.lines_of_code %></td>
     <td><%= file.methods %></td>
-    <td><%= file.complexity.total %></td>
+    <td><%= file.complexity.total_score %></td>
     <td><%= file.duplication.total %></td>
   </tr>
 </table>
 
-<h2>Complexity report</h2>
-<% file.complexity.report.each do |foo| %>
-  <li>Complex method <em>#<%= foo.method_name %></em> on <a href="#n<%= foo.line_number %>">line <%= foo.line_number %></a></li>
+<h2>Complexity hotspots</h2>
+<% file.complexity.hotspots.each do |hotspot| %>
+  <li>Complex method <em>#<%= hotspot.method_name %></em> on <a href="#n<%= hotspot.line_number %>">line <%= hotspot.line_number %></a></li>
 <% end %>
 
 <h2>Duplication report</h2>
