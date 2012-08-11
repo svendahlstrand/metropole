@@ -7,7 +7,7 @@ module Metropole
   class Reporter
     def initialize
       @all_files = RubyFile.all_in_current_dir
-      @all_files.sort! { |x, y| x.complexity.total_score <=> y.complexity.total_score}.reverse!
+      @all_files.sort_by! { |file| file.complexity.total_score + file.duplication.total }.reverse!
     end
 
     def run
