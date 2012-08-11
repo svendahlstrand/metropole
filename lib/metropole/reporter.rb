@@ -37,7 +37,7 @@ module Metropole
     end
 
     def open_browser
-      exec 'open metropole/index.html'
+      exec '{ xdg-open metropole/index.html || open metropole/index.html; } 2> /dev/null'
     end
   end
 end
