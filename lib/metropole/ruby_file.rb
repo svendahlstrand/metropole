@@ -1,9 +1,6 @@
 # encoding: utf-8
 
 require 'forwardable'
-require 'metropole/metrics/source'
-require 'metropole/metrics/complexity'
-require 'metropole/metrics/duplication'
 
 module Metropole
   class RubyFile
@@ -14,9 +11,9 @@ module Metropole
 
     def initialize(path)
       @path = path
-      @source_metrics = Metropole::Metrics::Source.new(self)
-      @complexity = Metropole::Metrics::Complexity.new(self)
-      @duplication = Metropole::Metrics::Duplication.new(self)
+      @source_metrics = Metrics::Source.new(self)
+      @complexity = Metrics::Complexity.new(self)
+      @duplication = Metrics::Duplication.new(self)
     end
 
     def html_path
