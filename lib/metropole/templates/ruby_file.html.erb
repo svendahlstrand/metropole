@@ -1,13 +1,5 @@
 <h1><%= file.path %></h1>
 
-<h2>Complexity report</h2>
-<pre><%= file.complexity.report %></pre>
-
-<h2>Duplication report</h2>
-<pre><%= file.duplication.report %></pre>
-
-<h2>Source</h2>
-
 <table>
   <tr>
     <th>Lines</th>
@@ -24,5 +16,15 @@
     <td><%= file.duplication.total %></td>
   </tr>
 </table>
+
+<h2>Complexity report</h2>
+<% file.complexity.report.each do |foo| %>
+  <li>Complex method <em>#<%= foo.method_name %></em> on <a href="#n<%= foo.line_number %>">line <%= foo.line_number %></a></li>
+<% end %>
+
+<h2>Duplication report</h2>
+<pre><%= file.duplication.report %></pre>
+
+<h2>Source</h2>
 
 <%= code %>

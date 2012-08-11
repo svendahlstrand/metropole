@@ -1,5 +1,6 @@
 # encoding: utf-8
 
+require 'ostruct'
 require 'flog'
 
 module Metropole
@@ -9,13 +10,21 @@ module Metropole
 
       def initialize(ruby_file)
         silence_warnings do
-          flog = Flog.new continue: true, parser: RubyParser
+          flog = Flog.new continue: true, methods: true, parser: RubyParser
           flog.flog ruby_file.path
           @total = flog.total.to_f.round(1)
 
-          report = StringIO.new '', 'r+:utf-8'
-          flog.report(report)
-          @report = report.string
+          # Create report
+          @report = []
+
+          flog.each_by_score do |class_and_method_name, score|
+            break if score < 20
+
+            method_name = class_and_method_name.split('#')[1]
+            line_number = flog.method_locations[class_and_method_name].split(':')[1]
+
+            @report << OpenStruct.new(method_name: method_name, line_number: line_number )
+          end
         end
       end
     end
