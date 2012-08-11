@@ -17,16 +17,20 @@
   </tr>
 </table>
 
-<h2>Complexity hotspots</h2>
-<% file.complexity.hotspots.each do |hotspot| %>
-  <li>Complex method <em>#<%= hotspot.method_name %></em> on <a href="#n<%= hotspot.line_number %>">line <%= hotspot.line_number %></a></li>
+<% if file.complexity.hotspots.any? %>
+  <h2>Complexity hotspots</h2>
+  <% file.complexity.hotspots.each do |hotspot| %>
+    <li><em>#<%= hotspot.method_name %></em> on <a href="#n<%= hotspot.line_number %>">line <%= hotspot.line_number %></a></li>
+  <% end %>
 <% end %>
 
-<h2>Duplication hotspots</h2>
-<% file.duplication.hotspots.each do |hotspot| %>
-  <h3><%= hotspot.heading %></h3>
-  <% hotspot.line_numbers.each do |line_number| %>
-    <li>on <a href="#n<%= line_number %>">line <%= line_number %></a></li>
+<% if file.duplication.hotspots.any? %>
+  <h2>Duplication hotspots</h2>
+  <% file.duplication.hotspots.each do |hotspot| %>
+    <h3><%= hotspot.heading %></h3>
+    <% hotspot.line_numbers.each do |line_number| %>
+      <li>on <a href="#n<%= line_number %>">line <%= line_number %></a></li>
+    <% end %>
   <% end %>
 <% end %>
 
